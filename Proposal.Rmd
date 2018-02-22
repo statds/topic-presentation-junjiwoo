@@ -1,0 +1,97 @@
+---
+title: "Data Science in Action Proposal"
+author:
+- Zhiyu Quan, University of Connecticut^[PhD Candidate, Department of Mathematics, University of Connecticut, 341 Mansfield Road, U-1009, Storrs, CT, USA, 06269. zhiyu.quan@uconn.edu.]
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+bibliography: /Users/ZhiyuQuan/Downloads/research/wisc/bibfile2017/firstpaper2017.bib
+output: 
+  pdf_document:
+    citation_package: natbib
+    fig_caption: true
+    number_sections: yes
+    keep_tex: true
+  word_document: default
+header-includes:
+- \usepackage{bbm}
+- \usepackage{multirow}
+- \usepackage{hhline}
+- \newcommand{\E}[1]{{\mathbb E}\left[#1\right]}
+- \usepackage[linesnumbered,lined,boxed,commentsnumbered]{algorithm2e}
+classoption: fleqn
+biblio-style: apalike
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE)
+```
+\section{Introduction}
+
+\subsection{Description and Background}
+[Fourth Actuarial Pricing Game](https://f-origin.hypotheses.org/wp-content/blogs.dir/253/files/2018/02/PricingGameGuide.pdf) as part of a research project conducted by Arthur Charpentier.
+From February 2018 until May 2018, the competition provides real historical(two year) contracts and claims data(about 10K contracts) to train models and offer premiums.
+
+\subsection{Problem Statement}
+The goal is to offer a premium for all records in the pricing dataset with the model information. 
+There will be limits on the complexity of first submission while for final submission there are no restrictions.
+\subsection{Time Line}
+
+\begin{itemize}
+\item Register by February 28th 2018
+\item Receive a training dataset by February 28th 2018
+\item First submission by April 9th, 2018
+\item Final submission by May 14th, 2018
+\end{itemize}
+
+\section{Model Candidates}
+Insurance is risk sharing in simple. We define a single claim severity as $Y_i$, $i=1,\ldots,N$, here $N$ is number of claims. Finally we can define insurance premium as $\pi$,
+$$
+\pi = \mathbb{E}_\mathbb{P}(\sum_{i=1}^N Y_i) \quad \text{here } \mathbb{P} 
+\text{ is risk space}
+$$
+Ideally, with insurance price differentiation, we have 
+$$
+\pi(r) = \mathbb{E}_\mathbb{P}(\sum_{i=1}^N Y_i | \mathbb{R} = r) \quad \text{for certain risk } \mathbb{R}
+$$
+In reality, with given data, we have risk explanatory-variables $\textbf{X} = (\textbf{X}_1,\ldots,\textbf{X}_p)$, so
+$$
+\begin{aligned}
+\pi(\textbf{x}) &= \mathbb{E}_\mathbb{P}(\sum_{i=1}^N Y_i | \textbf{X} = \textbf{x}) \\
+                &= \mathbb{E}_\mathbb{P}(N | \textbf{X} = \textbf{x})
+                   \mathbb{E}_\mathbb{P}(Y_i | \textbf{X} = \textbf{x}) 
+                   \quad \text{assume independence between }N \text{ and }Y_i 
+\end{aligned}
+$$
+We build predictive models to estimate $\mathbb{E}_\mathbb{P}(N | \textbf{X} = \textbf{x})$ and $\mathbb{E}_\mathbb{P}(Y_i | \textbf{X} = \textbf{x})$ from given data. 
+Under independence assumption, traditional statistics methods approximate $\pi$ using $\pi(\textbf{x})$ by the law of large number theorem. While, many empirical studies show that the independence assumption is not valid which leading to a biased premium estimation. I will explore some nonparametric techniques to find a remedy for this situation.
+Here are some model candidates:
+
+* Traditional
+      + Tweedie GLM
+      + Two-stage model
+      + Elastic net
+* Tree-base model
+      + Regression tree
+      + Conditional inference tree
+      + Random Forest
+      + GBM
+* GAM
+      + GAMboost
+* Neural Network
+      + LSTM
+* Clustering
+      + Segmentation on training data
+      
+\section{Data}
+The \textbf{training dataset} will be based on two years of data on household policies. There will be information about the insurance policy from underwriters, as well as, claims data. The \textbf{pricing dataset} with only underwriters information and no claims.
+
+\section{Future Work}
+
+\begin{itemize}
+\item EDA
+\item Data Cleaning and Feature Engineering 
+\item Modeling Tuning
+\item Prediction Accuracy 
+\end{itemize}
+
+
+
